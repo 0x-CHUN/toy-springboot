@@ -1,5 +1,6 @@
 package springboot.factory;
 
+import springboot.orm.annotation.Mapper;
 import springboot.annotation.aop.Aspect;
 import springboot.annotation.ioc.Component;
 import springboot.annotation.mvc.RestController;
@@ -22,10 +23,12 @@ public class ClassFactory {
         // Scan
         Set<Class<?>> controllers = ReflectionUtil.scanAnnotatedClass(packageName, RestController.class);
         Set<Class<?>> components = ReflectionUtil.scanAnnotatedClass(packageName, Component.class);
+        Set<Class<?>> mappers = ReflectionUtil.scanAnnotatedClass(packageName, Mapper.class);
         Set<Class<?>> aspects = ReflectionUtil.scanAnnotatedClass(packageName, Aspect.class);
         // Store
         CLASSES.put(RestController.class, controllers);
         CLASSES.put(Component.class, components);
-        CLASSES.put(Aspect.class,aspects);
+        CLASSES.put(Aspect.class, aspects);
+        CLASSES.put(Mapper.class, mappers);
     }
 }

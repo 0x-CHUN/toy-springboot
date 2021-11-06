@@ -8,13 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component(name = "myUserService")
+@Component
 public class UserService {
     private Integer id = 1;
 
     private final Map<Integer, User> users = new HashMap<>() {
         {
-            put(1, new User("Admin", "It is admin", 18));
+            put(1, new User(1, "Admin", "admin", 1L));
+            put(2, new User(2, "CHUN", "CHUN", 2L));
         }
     };
 
@@ -23,9 +24,7 @@ public class UserService {
     }
 
     public List<User> create(@RequestBody UserDto userDto) {
-        users.put(++id, new User(userDto.getName(), userDto.getDes(), userDto.getAge()));
         return new ArrayList<>(users.values());
-
     }
 
     public void say() {

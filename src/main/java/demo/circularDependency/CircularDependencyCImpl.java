@@ -3,7 +3,7 @@ package demo.circularDependency;
 import springboot.annotation.ioc.Autowired;
 import springboot.annotation.ioc.Component;
 
-@Component(name = "CircularDependencyCImpl")
+@Component
 public class CircularDependencyCImpl implements CircularDependencyC {
 
     @Autowired

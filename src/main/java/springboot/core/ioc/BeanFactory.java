@@ -1,13 +1,13 @@
 package springboot.core.ioc;
 
+import springboot.orm.annotation.Mapper;
+import springboot.orm.core.MapperHelper;
 import springboot.annotation.ioc.Component;
 import springboot.annotation.mvc.RestController;
 import springboot.utils.BeanUtil;
 import springboot.utils.ReflectionUtil;
 import springboot.core.aop.factory.AopProxyBeanPostProcessorFactory;
 import springboot.core.aop.intercept.BeanPostProcessor;
-import springboot.core.config.ConfigurationFactory;
-import springboot.core.config.ConfigurationManager;
 import springboot.exception.BeanNotFoundException;
 import springboot.factory.ClassFactory;
 
@@ -34,8 +34,9 @@ public class BeanFactory {
             Object obj = ReflectionUtil.newInstance(clazz);
             BEANS.put(clazz.getName(), obj);
         });
-        // load the configuration
-        BEANS.put(ConfigurationManager.class.getName(), new ConfigurationManager(ConfigurationFactory.getConfig()));
+        // init the mapper
+        MapperHelper mapperHelper = MapperHelper.getInstance();
+        ClassFactory.CLASSES.get(Mapper.class).forEach(mapperHelper::init);
     }
 
     // apply the post processors

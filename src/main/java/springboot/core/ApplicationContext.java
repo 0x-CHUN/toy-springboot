@@ -4,6 +4,7 @@ import springboot.annotation.boot.ComponentScan;
 import springboot.core.aop.factory.InterceptorFactory;
 import springboot.core.boot.ApplicationRunner;
 import springboot.core.config.Configuration;
+import springboot.core.config.ConfigurationFactory;
 import springboot.core.config.ConfigurationManager;
 import springboot.core.ioc.BeanFactory;
 import springboot.core.ioc.DependencyInjection;
@@ -25,14 +26,14 @@ public class ApplicationContext {
 
     public void run(Class<?> application) {
         String[] packageNames = getPackageNames(application);
+        // load configuration first!
+        loadResources(application);
         // load class
         ClassFactory.loadClass(packageNames);
         //load route
         RouteMethodMapper.loadRoutes();
         // load beans
         BeanFactory.loadBeans();
-        // load configuration
-        loadResources(application);
         // load interceptor
         InterceptorFactory.loadInterceptors(packageNames);
         // inject the bean
@@ -70,8 +71,10 @@ public class ApplicationContext {
                 }
             }
         }
-        ConfigurationManager configurationManager = BeanFactory.getBean(ConfigurationManager.class);
-        configurationManager.loadResources(filePaths);
+        ConfigurationManager manager = new ConfigurationManager(ConfigurationFactory.getConfig());
+        // add configuration manager into BEANS
+        BeanFactory.BEANS.put(ConfigurationManager.class.getName(), manager);
+        manager.loadResources(filePaths);
     }
 
     private static String[] getPackageNames(Class<?> application) {

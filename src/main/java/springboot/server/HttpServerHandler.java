@@ -22,7 +22,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) {
-        log.info("Handler http request:{}", request);
+//        log.info("Handler http request:{}", request);
         String uri = request.uri();
         if (uri.equals(FAVICON_ICO)) {
             return;

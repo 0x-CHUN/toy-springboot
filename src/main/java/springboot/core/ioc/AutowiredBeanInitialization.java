@@ -1,5 +1,6 @@
 package springboot.core.ioc;
 
+import springboot.orm.annotation.Mapper;
 import springboot.annotation.config.Value;
 import springboot.annotation.ioc.Autowired;
 import springboot.annotation.ioc.Qualifier;
@@ -85,6 +86,10 @@ public class AutowiredBeanInitialization {
      */
     private Object processAutowiredAnnotationField(Field beanField) {
         Class<?> beanFieldClass = beanField.getType();
+        // autowire mapper
+        if (beanFieldClass.getAnnotation(Mapper.class) != null) {
+            return BeanFactory.BEANS.get(beanFieldClass.getName());
+        }
         String beanFieldName = BeanUtil.getBeanName(beanFieldClass);
         Object beanFieldInstance;
         if (beanFieldClass.isInterface()) {

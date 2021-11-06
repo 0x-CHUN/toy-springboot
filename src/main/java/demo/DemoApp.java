@@ -5,7 +5,6 @@ import springboot.annotation.boot.SpringbootApplication;
 import springboot.core.ApplicationContext;
 
 @SpringbootApplication
-@ComponentScan("demo")
 public class DemoApp {
     public static void main(String[] args) {
         DemoApp.run(DemoApp.class, args);
